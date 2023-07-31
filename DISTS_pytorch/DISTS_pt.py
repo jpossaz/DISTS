@@ -8,6 +8,7 @@ from torchvision import models,transforms
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class L2pooling(nn.Module):
     def __init__(self, filter_size=5, stride=2, channels=None, pad_off=0):
         super(L2pooling, self).__init__()
@@ -60,7 +61,8 @@ class DISTS(torch.nn.Module):
         self.alpha.data.normal_(0.1,0.01)
         self.beta.data.normal_(0.1,0.01)
         if load_weights:
-            weights = torch.load(os.path.join(sys.prefix,'weights.pt'))
+            from pathlib import Path, PurePosixPath
+            weights = torch.load(str(PurePosixPath(Path.cwd()).joinpath('weights.pt')))
             self.alpha.data = weights['alpha']
             self.beta.data = weights['beta']
         
